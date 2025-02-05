@@ -35,7 +35,7 @@ jobs:
         
       # ssh agent
       - name: Run remote command test
-        uses: appleboy/ssh-action@v.1.2.0
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
