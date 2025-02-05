@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-24.04 # Github 워크스페이스 환경
 
     steps: # 실행할 작업(step)
+
+      # 로컬 파일을 원격 서버로 복사할 때 사용
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -23,9 +25,24 @@ jobs:
       - name: Add Remote Server Fingerprint to Known Hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || true
 
+      # 원격 서버에 파일 생성
       - name: create file on remote server
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "touch 'hello-world.txt'"
 
+      # 로컬 파일을 원격 서버로 복사할 때 사용
       - name: copy file to remote server
         run: scp -P ${{ secrets.SSH_PORT }} README.md ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/
         
+      # ssh agent
+      - name: Run remote command test
+        uses: appleboy/ssh-action@v.1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSJH_PORT }}
+          # SSH 연결로 순차적으로 실행할 명령어 목록
+          script: |
+            touch 'hello-world1.txt'
+            touch 'hello-world2.txt'
+            touch 'hello-world3.txt'
