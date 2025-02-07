@@ -15,6 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 액션 시작 알림 메세지
+      - name: Start Message
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "배포 시작"
+
       - name: run ssh-agent
         uses: webfactory/ssh-agent@v0.9.0 # 사용할 외부 Actions
         with: # 사용할 Actions에서 꼭 지켜야할 규칙
