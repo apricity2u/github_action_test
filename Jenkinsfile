@@ -9,7 +9,7 @@ pipeline {
                     // file : secret  file 불러오기
                     // credentialIsIs : 불러올 file의 식별 ID
                     // variable : 스크립트 내에서 사용할 변수명
-                    withCredentials([file(credentialIsId: 'env-file', variable: 'env_file')]){
+                    withCredentials([file(credentialsId: 'env-file', variable: 'env_file')]){
                         
                         // 젠킨스 서비스 내 .env 파일을
                         // 파이프라인 프로젝트 내부로 복사
