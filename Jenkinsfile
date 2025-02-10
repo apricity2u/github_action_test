@@ -18,7 +18,7 @@ pipeline {
                         // 파일 권한 설정
                         // 소유자 : 읽기 + 쓰기 권한
                         // 그 외 : 읽기 권한
-                        sh 'chmod 644.env'
+                        sh 'chmod 644. env'
 
                     }
                 }
