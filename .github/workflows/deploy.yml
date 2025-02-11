@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-24.04 # Github 워크스페이스 환경
 
     steps: # 실행할 작업(step)
-
       # 로컬 파일을 원격 서버로 복사할 때 사용
       - name: Checkout code
         uses: actions/checkout@v4
@@ -71,7 +70,7 @@ jobs:
       - name: Docker Image Build
         # docker compose의 파일 이름 설정 -f ~
         run: docker compose -f docker-compose-actions-cache.yml build --build-arg BUILDKIT_INLINE_CACHE=1
-      
+
       - name: Login DockerHub
         run: echo '${{ secrets.DOCKER_PASSWORD }}' | docker login -u '${{ secrets.DOCKER_USERNAME }}' --password-stdin
 
@@ -80,17 +79,17 @@ jobs:
 
       - name: Copy .env / docker-compose-actions-cache.yml
         uses: appleboy/scp-action@v0.1.7
-        with: 
+        with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "docker-compose-actions-cache.yml"
+          source: "docker-compose-actions-cache.yml,.env"
           target: "~/work-directory"
 
       - name: Pull Image & Up Container
         uses: appleboy/ssh-action@v1.0.3
-        with: 
+        with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
