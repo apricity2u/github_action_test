@@ -98,6 +98,7 @@ jobs:
             docker-compose -f docker-compose-actions-cache.yml pull
             docker-compose -f docker-compose-actions-cache.yml down
             docker-compose -f docker-compose-actions-cache.yml up -d
+            docker image prune -f
 
       # 액션 종료 알림 메세지 - 성공
       - name: End Message - Success
